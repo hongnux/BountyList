@@ -11,3 +11,4 @@
 
 2차 디자인 패턴을 적용 ( Model - View - ViewModel ) , 현상금 금액 순서대로 sorted
 
+3차 collectionView 로 재구성
