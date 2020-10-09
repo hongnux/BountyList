@@ -5,7 +5,7 @@
 
 import UIKit
 
-class BountyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class BountyViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // MVVM 적용
     
@@ -33,27 +33,38 @@ class BountyViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
     }
     
-    // Datasource
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    // UICollectionViewDataSource
+    // 몇개의 데이터?
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numOfBountyInfoList
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? ListCell else{
-            return UITableViewCell()
-        }
-        let bountyInfo = viewModel.bountyInfo(at: indexPath.row)
+    // cell 의 구성은 어떻게?
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell", for: indexPath) as? GridCell else { return UICollectionViewCell() }
+        
+        let bountyInfo = viewModel.bountyInfo(at: indexPath.item)
         cell.update(info: bountyInfo)
         return cell
     }
-
-    // Delegate -> 클릭시 이벤트 처리
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showDetail", sender: indexPath.row)
+    
+    // UICollectionViewDelegate : 셀 클릭시 어떤 이벤트 처리할것인가?
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetail", sender: indexPath.item)
+    }
+    
+    // UICollectionViewDelegateFlowLayout : 디바이스별 동적인 cell size 계산
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemSpacing: CGFloat = 10
+        let textAreaHeight: CGFloat = 65
+        
+        let width: CGFloat = (collectionView.bounds.width - itemSpacing) / 2
+        let height: CGFloat = width * 10/7 + textAreaHeight
+        return CGSize(width: width, height: height)
     }
 }
 
-class ListCell: UITableViewCell{
+class GridCell: UICollectionViewCell{
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var bountyLabel: UILabel!
