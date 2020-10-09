@@ -14,3 +14,7 @@
 3차 collectionView 로 재구성
 
 4차 Animation 구성
+
+5차 View 의 속성을 이용한 Animation 이용
+
+* 앱 구동 영상은 [ AppRun.mov ] 동영상 확인!
