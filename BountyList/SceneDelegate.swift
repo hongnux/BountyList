@@ -2,11 +2,10 @@
 //  SceneDelegate.swift
 //  BountyList
 //
-//  Created by HJM on 2020/10/07.
-//
 
 import UIKit
 
+@available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
